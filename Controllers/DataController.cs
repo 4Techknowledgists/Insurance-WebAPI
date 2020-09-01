@@ -332,6 +332,11 @@ namespace WebApiTokenAuthentication.Controllers
             return doc;
         }
 
+        /// <summary>
+        /// Post Method
+        /// </summary>
+        /// <param name="MethodName"></param>
+        /// <returns></returns>
         [HttpPost]
         public XmlDocument CallInsuranceApiPost(string MethodName) //  PostInfoToAPI(object obj, string MethodName)
         {
