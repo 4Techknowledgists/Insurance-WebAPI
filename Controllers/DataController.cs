@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Web.Http;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace WebApiTokenAuthentication.Controllers
@@ -338,33 +340,54 @@ namespace WebApiTokenAuthentication.Controllers
         /// <param name="MethodName"></param>
         /// <returns></returns>
         [HttpPost]
-        public XmlDocument CallInsuranceApiPost(string MethodName) //  PostInfoToAPI(object obj, string MethodName)
+        //public XmlDocument CallInsuranceApiPost([FromBody]XmlElement xmlstring)//HttpRequestMessage xmlstring) //  PostInfoToAPI(object obj, string MethodName)
+        public HttpResponseMessage CallInsuranceApiPost(HttpRequestMessage xmlstring)//HttpRequestMessage xmlstring) //  PostInfoToAPI(object obj, string MethodName)
         {
-            MethodName = "createProposalAPIobj";
+            string jsonResult = string.Empty;
+
+            XmlDocument doc = JsonConvert.DeserializeXmlNode(xmlstring.Content.ReadAsStringAsync().Result, "TravelDetails");
+
+            string  MethodName = "createProposalAPIobjPost";
             //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://rgipartners.reliancegeneral.co.in/API/Service/" + MethodName);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:44330/api/data/" + MethodName);
-            XmlDocument doc = new XmlDocument();
+            XmlDocument outdoc = new XmlDocument();
             try
             {
-                string requestData = ""; // obj.ToString();
-                byte[] data = Encoding.UTF8.GetBytes(requestData);
-                request.Method = "GET";
+                //Internal Tag to know Request is sent by dayibpl BAL only
+                XmlElement requestorTag = doc.CreateElement("REQUESTOR");
+                requestorTag.InnerText = "CALLINGFROMBAL2WEBAPI";
+                doc.LastChild.AppendChild(requestorTag);
+
+                //string requestData = xmlstring.ToString();
+                byte[] data = Encoding.UTF8.GetBytes(doc.OuterXml); // xmlstring.OuterXml);
+                request.Method = "POST";
                 Stream dataStream = request.GetRequestStream();
                 dataStream.Write(data, 0, data.Length);
                 dataStream.Close();
-                request.ContentType = "text/xml";
+                request.ContentType = "text/xml; encoding=utf-8";
                 WebResponse response = request.GetResponse();
                 response = request.GetResponse();
+
                 string result = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-                doc.LoadXml(result);
+                //string xml = "<Test><Name>Test class</Name><X>100</X><Y>200</Y></Test>";
+                //outdoc.LoadXml(result);
+                //outdoc.LoadXml(outdoc.OuterXml);
+                //jsonResult = JsonConvert.SerializeXmlNode(outdoc, Newtonsoft.Json.Formatting.None,false);
+
+                var resp = Request.CreateResponse(HttpStatusCode.OK);
+                resp.Content = new StringContent(result, Encoding.UTF8, "application/json");
+                return resp;
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
             }
 
-            return doc;
+            var respFinal = Request.CreateResponse(HttpStatusCode.OK);
+            respFinal.Content = new StringContent(jsonResult, Encoding.UTF8, "application/json");
+            return respFinal;
+            
         }
     }
     public class Utf8StringWriter : StringWriter
