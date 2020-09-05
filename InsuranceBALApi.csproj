@@ -140,11 +140,16 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AuthorizationService.cs" />
     <Compile Include="AuthorizeAttribute.cs" />
-    <Compile Include="Controllers\DataController.cs" />
+    <Compile Include="Common\CommonDB.cs" />
+    <Compile Include="Controllers\TravelController.cs" />
+    <Compile Include="Functions\TravelServiceFunctions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Interface\ITravelServiceFunctions.cs" />
     <Compile Include="Models\clsProposal.cs" />
+    <Compile Include="Models\GenericReturnModel.cs" />
+    <Compile Include="Models\TravelModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
