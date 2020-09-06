@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace WebApiTokenAuthentication.Models
 {
     [XmlRoot(ElementName = "TravelDetails")]
-    public class clsProposal
+    public class ClsProposal
     {
         [XmlElement(ElementName = "UserID")]
         public string UserID { get; set; }

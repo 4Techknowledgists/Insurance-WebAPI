@@ -25,7 +25,7 @@ namespace InsuranceBALApi.Functions
 {
     public class TravelServiceFunctions : ITravelServiceFunctions
     {
-        DataReturnModel<dynamic> ITravelServiceFunctions.hitDbByEnquiryID(searchResponse request)
+        DataReturnModel<dynamic> ITravelServiceFunctions.HitDbByEnquiryID(SearchResponse request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
 
@@ -33,7 +33,7 @@ namespace InsuranceBALApi.Functions
             {
                 // store and check data
                 string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                DataTable dt = getTravelSearchResultByEnquiryID(cstr, request.enquiryID);
+                DataTable dt = GetTravelSearchResultByEnquiryID(cstr, request.enquiryID);
 
                 List<EnquiryIDData> list = new List<EnquiryIDData>();
                 for (int i = 0; i < dt.Rows.Count; i++)
@@ -116,13 +116,13 @@ namespace InsuranceBALApi.Functions
             return dr;
         }
 
-        DataReturnModel<dynamic> ITravelServiceFunctions.hitTravelSearchApi(searchRequest request)
+        DataReturnModel<dynamic> ITravelServiceFunctions.HitTravelSearchApi(SearchRequest request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
 
             try
             {
-                searchResponse rres = new searchResponse();
+                SearchResponse rres = new SearchResponse();
 
                 if(request.InsuranceFor.ToUpper()=="FAMILY"|| request.InsuranceFor.ToUpper() =="INDIVIDUAL")
                 {
@@ -156,14 +156,14 @@ namespace InsuranceBALApi.Functions
         }
         
 
-        DataReturnModel<dynamic> ITravelServiceFunctions.hitSelectedPlanApi(selectedPlan request)
+        DataReturnModel<dynamic> ITravelServiceFunctions.HitSelectedPlanApi(SelectedPlan request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
 
             try
             {
                 string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                DataSet ds = insertSelectedPlanData(cstr, request);
+                DataSet ds = InsertSelectedPlanData(cstr, request);
 
                 dr.info.res = JsonConvert.SerializeObject(ds);
 
@@ -177,13 +177,13 @@ namespace InsuranceBALApi.Functions
             return dr;
         }
 
-        DataReturnModel<dynamic> ITravelServiceFunctions.hitProposalFormApi(proposalForm request)
+        DataReturnModel<dynamic> ITravelServiceFunctions.HitProposalFormApi(ProposalForm request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
             try
             {
                 string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                DataSet ds = insertProposalFormData(cstr, request);
+                DataSet ds = InsertProposalFormData(cstr, request);
                 dr.info.res = JsonConvert.SerializeObject(ds);
                 // DataSet dds = JsonConvert.DeserializeObject<DataSet>(dr.info.res);
                 // CALL API FROM HERE AND PASS ENQUIRY ID AND ALL PARAMETER RECEVED FROM UI
@@ -196,7 +196,7 @@ namespace InsuranceBALApi.Functions
         }
 
 
-        DataReturnModel<dynamic> ITravelServiceFunctions.hitPaymentGatewayApi(pgResponse request)
+        DataReturnModel<dynamic> ITravelServiceFunctions.HitPaymentGatewayApi(PgResponse request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
             try
@@ -226,7 +226,7 @@ namespace InsuranceBALApi.Functions
             return dr;
         }
 
-        DataReturnModel<dynamic> ITravelServiceFunctions.hitDownloadPolicyApi(PolicyDownload request)
+        DataReturnModel<dynamic> ITravelServiceFunctions.HitDownloadPolicyApi(PolicyDownload request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
             try
@@ -258,14 +258,14 @@ namespace InsuranceBALApi.Functions
 
         
 
-        DataReturnModel<dynamic> ITravelServiceFunctions.hitSmsApi(smsRequest request)
+        DataReturnModel<dynamic> ITravelServiceFunctions.HitSmsApi(SmsRequest request)
         {
 
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
 
             try
             {
-                send_sms(request.phoneNo, request.Message);
+                Send_sms(request.phoneNo, request.Message);
 
                 dr.info.res = "{status:SUCCESS}";
 
@@ -279,12 +279,12 @@ namespace InsuranceBALApi.Functions
             return dr;
         }
 
-        DataReturnModel<dynamic> ITravelServiceFunctions.hitEmailApi(emailRequest request)
+        DataReturnModel<dynamic> ITravelServiceFunctions.HitEmailApi(EmailRequest request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
             try
             {
-                sendmail(request.body, request.to, request.cc, request.subject, request.bcc);
+                Sendmail(request.body, request.to, request.cc, request.subject, request.bcc);
                 dr.info.res = "{status:SUCCESS}";
                 // CALL API FROM HERE AND PASS ENQUIRY ID AND ALL PARAMETER RECEVED FROM UI
 
@@ -296,7 +296,7 @@ namespace InsuranceBALApi.Functions
             return dr;
         }
 
-        DataReturnModel<dynamic> ITravelServiceFunctions.hitLoginApi(loginRequest request)
+        DataReturnModel<dynamic> ITravelServiceFunctions.HitLoginApi(LoginRequest request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
             try
@@ -336,9 +336,9 @@ namespace InsuranceBALApi.Functions
 
         
 
-        public string send_sms(string to, string message)
+        public string Send_sms(string to, string message)
         {
-            DataTable dt = getCredential_SMS_EMAIL(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, "SMS");
+            DataTable dt = GetCredential_SMS_EMAIL(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, "SMS");
 
             string userid = dt.Rows[0]["Userid"].ToString();
             string pass = dt.Rows[0]["PWD"].ToString();
@@ -387,7 +387,7 @@ namespace InsuranceBALApi.Functions
 
         }
 
-        protected void sendmail(string html, string to, string cc, string sub, string bcc)
+        protected void Sendmail(string html, string to, string cc, string sub, string bcc)
         {
             try
             {
@@ -398,7 +398,7 @@ namespace InsuranceBALApi.Functions
                 string sSMtpServer, SSMtpServerPort, sSender, sPassword;
                 System.Net.Mail.MailMessage smail = new System.Net.Mail.MailMessage();
 
-                DataTable dt = getCredential_SMS_EMAIL(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, "EMAIL");
+                DataTable dt = GetCredential_SMS_EMAIL(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, "EMAIL");
 
                 sSMtpServer = dt.Rows[0]["SenderSMTP"].ToString();
                 SSMtpServerPort = dt.Rows[0]["SenderSMTPPort"].ToString();
@@ -433,7 +433,7 @@ namespace InsuranceBALApi.Functions
             }
         }
 
-        private DataTable getTravelSearchResultByEnquiryID(string cstr, string enqID)
+        private DataTable GetTravelSearchResultByEnquiryID(string cstr, string enqID)
         {
             //Enter Values in Recharge Table
             try
@@ -441,7 +441,7 @@ namespace InsuranceBALApi.Functions
                 SqlParameter[] param = new SqlParameter[1];
                 param[0] = new SqlParameter("@enquiryid", enqID);
 
-                return (new CommonDB().executeQuery(cstr, "GetTravelSearchByEnquiryID", param));
+                return (new CommonDB().ExecuteQuery(cstr, "GetTravelSearchByEnquiryID", param));
             }
             catch (Exception ex)
             {
@@ -449,7 +449,7 @@ namespace InsuranceBALApi.Functions
             }
         }
 
-        private DataTable getCredential_SMS_EMAIL(string cstr, string crdReq)
+        private DataTable GetCredential_SMS_EMAIL(string cstr, string crdReq)
         {
             //Enter Values in Recharge Table
             try
@@ -458,12 +458,12 @@ namespace InsuranceBALApi.Functions
                 if (crdReq == "SMS")
                 {
                     param[0] = new SqlParameter("@crdReq", "SMS");
-                    return (new CommonDB().executeQuery(cstr, "sp_getCredential", param));
+                    return (new CommonDB().ExecuteQuery(cstr, "sp_getCredential", param));
                 }
                 else if (crdReq == "EMAIL")
                 {
                     param[0] = new SqlParameter("@crdReq", "EMAIL");
-                    return (new CommonDB().executeQuery(cstr, "sp_getCredential", param));
+                    return (new CommonDB().ExecuteQuery(cstr, "sp_getCredential", param));
                 }
                 else
                 {
@@ -476,7 +476,7 @@ namespace InsuranceBALApi.Functions
             }
         }
 
-        private DataSet insertSelectedPlanData(string cstr, selectedPlan sReq)
+        private DataSet InsertSelectedPlanData(string cstr, SelectedPlan sReq)
         {
             //Enter Values in Recharge Table
             try
@@ -486,7 +486,7 @@ namespace InsuranceBALApi.Functions
                 param[1] = new SqlParameter("@CompanyName", sReq.EnquiryID);
                 param[2] = new SqlParameter("@PlanName", sReq.EnquiryID);
 
-                return (new CommonDB().executeMultipleQuery(cstr, "insertSelectedTravelPlanDetail", param));
+                return (new CommonDB().ExecuteMultipleQuery(cstr, "InsertSelectedTravelPlanDetail", param));
             }
             catch (Exception ex)
             {
@@ -494,7 +494,7 @@ namespace InsuranceBALApi.Functions
             }
         }
 
-        private DataSet insertProposalFormData(string cstr, proposalForm sReq)
+        private DataSet InsertProposalFormData(string cstr, ProposalForm sReq)
         {
             //Enter Values in Recharge Table
             try
@@ -502,7 +502,7 @@ namespace InsuranceBALApi.Functions
                 SqlParameter[] param = new SqlParameter[1];
                 param[0] = new SqlParameter("@enquiryid", sReq.enquiryID);
 
-                return (new CommonDB().executeMultipleQuery(cstr, "insertTravelProposalFormDetail", param));
+                return (new CommonDB().ExecuteMultipleQuery(cstr, "InsertTravelProposalFormDetail", param));
             }
             catch (Exception ex)
             {

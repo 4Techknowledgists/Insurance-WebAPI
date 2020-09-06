@@ -53,7 +53,7 @@ namespace WebApiTokenAuthentication.Controllers
         public void CreateProposalAPIobj()
         {
             
-            WebApiTokenAuthentication.Models.clsProposal objProposal = new Models.clsProposal();
+            WebApiTokenAuthentication.Models.ClsProposal objProposal = new Models.ClsProposal();
 
             objProposal.ClientDetails = new Models.ClientDetails();
             objProposal.ClientDetails.ClientType = "0";
@@ -394,41 +394,41 @@ namespace WebApiTokenAuthentication.Controllers
 
         [HttpPost]
         [Route("TravelSearchRequest")]
-        public DataReturnModel<dynamic> StoreFlightRequest(searchRequest request)
+        public DataReturnModel<dynamic> StoreFlightRequest(SearchRequest request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
-            dr = ServiceFunctions.hitTravelSearchApi(request);
+            dr = ServiceFunctions.HitTravelSearchApi(request);
             return dr;
         }
 
         [HttpPost]
         [Route("TravelGetResultByRefNo")]
-        public string searchResult(searchResponse request)
+        public string SearchResult(SearchResponse request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
-            dr = ServiceFunctions.hitDbByEnquiryID(request);
+            dr = ServiceFunctions.HitDbByEnquiryID(request);
             return dr.info.res.ToString();
         }
 
 
         [HttpPost]
         [Route("TravelPlanSelected")]
-        public DataReturnModel<dynamic> saveSelectedPlan(selectedPlan request)
+        public DataReturnModel<dynamic> SaveSelectedPlan(SelectedPlan request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
-            dr = ServiceFunctions.hitSelectedPlanApi(request);
+            dr = ServiceFunctions.HitSelectedPlanApi(request);
             return dr;
         }
 
         [HttpPost]
         //[Route("TravelProposalForm")]
         [Route("api/data/TravelProposalForm")]
-        public DataReturnModel<dynamic> SaveProposalPlan(proposalForm requestinp)
+        public DataReturnModel<dynamic> SaveProposalPlan(ProposalForm requestinp)
         {
             string jsonResult = string.Empty;
 
             //Do mapping of proposal input file to company specific xml
-            WebApiTokenAuthentication.Models.clsProposal objProposal = new Models.clsProposal();
+            WebApiTokenAuthentication.Models.ClsProposal objProposal = new Models.ClsProposal();
 
             objProposal.ClientDetails = new Models.ClientDetails();
             objProposal.ClientDetails.ClientType = "0"; 
@@ -737,48 +737,48 @@ namespace WebApiTokenAuthentication.Controllers
 
         [HttpPost]
         [Route("TravelPG")]
-        public DataReturnModel<dynamic> pgResponse(pgResponse request)
+        public DataReturnModel<dynamic> PgResponse(PgResponse request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
-            dr = ServiceFunctions.hitPaymentGatewayApi(request);
+            dr = ServiceFunctions.HitPaymentGatewayApi(request);
             return dr;
         }
 
 
         [HttpPost]
         [Route("TravelDownloadPolicy")]
-        public DataReturnModel<dynamic> getPolicyPDF(PolicyDownload request)
+        public DataReturnModel<dynamic> GetPolicyPDF(PolicyDownload request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
-            dr = ServiceFunctions.hitDownloadPolicyApi(request);
+            dr = ServiceFunctions.HitDownloadPolicyApi(request);
             return dr;
         }
 
 
         [HttpPost]
         [Route("TravelSendSMS")]
-        public DataReturnModel<dynamic> sendSMS(smsRequest request)
+        public DataReturnModel<dynamic> SendSMS(SmsRequest request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
-            dr = ServiceFunctions.hitSmsApi(request);
+            dr = ServiceFunctions.HitSmsApi(request);
             return dr;
         }
 
         [HttpPost]
         [Route("TravelSendEmail")]
-        public DataReturnModel<dynamic> sendEMAIL(emailRequest request)
+        public DataReturnModel<dynamic> SendEMAIL(EmailRequest request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
-            dr = ServiceFunctions.hitEmailApi(request);
+            dr = ServiceFunctions.HitEmailApi(request);
             return dr;
         }
 
         [HttpPost]
         [Route("TravelCheckUser")]
-        public DataReturnModel<dynamic> checkUser(loginRequest request)
+        public DataReturnModel<dynamic> CheckUser(LoginRequest request)
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
-            dr = ServiceFunctions.hitLoginApi(request);
+            dr = ServiceFunctions.HitLoginApi(request);
             return dr;
         }
 

@@ -11,14 +11,14 @@ namespace InsuranceBALApi.Interface
 {
     interface  ITravelServiceFunctions
     {
-        DataReturnModel<dynamic> hitDbByEnquiryID(searchResponse request);
-        DataReturnModel<dynamic> hitTravelSearchApi(searchRequest request);
-        DataReturnModel<dynamic> hitSmsApi(smsRequest request);
-        DataReturnModel<dynamic> hitEmailApi(emailRequest request);
-        DataReturnModel<dynamic> hitSelectedPlanApi(selectedPlan request);
-        DataReturnModel<dynamic> hitProposalFormApi(proposalForm request);
-        DataReturnModel<dynamic> hitPaymentGatewayApi(pgResponse request);
-        DataReturnModel<dynamic> hitDownloadPolicyApi(PolicyDownload request);
-        DataReturnModel<dynamic> hitLoginApi(loginRequest request);
+        DataReturnModel<dynamic> HitDbByEnquiryID(SearchResponse request);
+        DataReturnModel<dynamic> HitTravelSearchApi(SearchRequest request);
+        DataReturnModel<dynamic> HitSmsApi(SmsRequest request);
+        DataReturnModel<dynamic> HitEmailApi(EmailRequest request);
+        DataReturnModel<dynamic> HitSelectedPlanApi(SelectedPlan request);
+        DataReturnModel<dynamic> HitProposalFormApi(ProposalForm request);
+        DataReturnModel<dynamic> HitPaymentGatewayApi(PgResponse request);
+        DataReturnModel<dynamic> HitDownloadPolicyApi(PolicyDownload request);
+        DataReturnModel<dynamic> HitLoginApi(LoginRequest request);
     }
 }

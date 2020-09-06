@@ -10,7 +10,7 @@ namespace PayuTest.Common
 {
     public class CommonDB
     {
-        public DataTable executeQuery(string ConnectionString, string spName, SqlParameter[] param)
+        public DataTable ExecuteQuery(string ConnectionString, string spName, SqlParameter[] param)
         {
             DataTable dt = new DataTable();
 
@@ -37,7 +37,7 @@ namespace PayuTest.Common
             return dt;
         }
 
-        public DataSet executeMultipleQuery(string ConnectionString, string spName, SqlParameter[] param)
+        public DataSet ExecuteMultipleQuery(string ConnectionString, string spName, SqlParameter[] param)
         {
             DataSet dt = new DataSet();
             try

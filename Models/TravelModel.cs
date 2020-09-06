@@ -12,7 +12,7 @@ namespace InsuranceBALApi.Models
 
         public class TravelApiRequestResponseModel
         {
-            public class searchRequest
+            public class SearchRequest
             {
                 public string InsuranceFor { get; set; } // Family/self/student
                 public string DestinationCity { get; set; }
@@ -66,7 +66,7 @@ namespace InsuranceBALApi.Models
             }
 
 
-            public class searchResponse
+            public class SearchResponse
             {
                 public string enquiryID { get; set; } // Family/self/student
                 public string tokenID { get; set; } // Family/self/student
@@ -181,14 +181,14 @@ namespace InsuranceBALApi.Models
                 public string Status { get; set; }
             }
 
-            public class smsRequest
+            public class SmsRequest
             {
                 public string phoneNo { get; set; }
                 public string Message { get; set; }
                
             }
             
-            public class emailRequest
+            public class EmailRequest
             {
                 public string body { get; set; }
                 public string to { get; set; }
@@ -198,7 +198,7 @@ namespace InsuranceBALApi.Models
 
             }
 
-            public class proposalForm
+            public class ProposalForm
             {
                 public string enquiryID { get; set; }
                 public string suminsured { get; set; }
@@ -227,14 +227,14 @@ namespace InsuranceBALApi.Models
                 public string IsPersonalAccidentOpt { get; set; }
             }
             
-            public class selectedPlan
+            public class SelectedPlan
             {
                 public string EnquiryID { get; set; }
                 public string CompanyName { get; set; }
                 public string PlanName { get; set; }
             }
 
-            public class pgResponse
+            public class PgResponse
             {
                 public string enquiryID { get; set; }
                 public string companyname { get; set; }
@@ -247,7 +247,7 @@ namespace InsuranceBALApi.Models
                 public string policyNo { get; set; }
             }
 
-            public class loginRequest
+            public class LoginRequest
             {
                 public string username { get; set; }
                 public string password { get; set; }
