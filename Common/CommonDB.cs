@@ -37,6 +37,26 @@ namespace PayuTest.Common
             return dt;
         }
 
+        public DataTable ExecuteQuery(string ConnectionString, string spName)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand(spName, conn);
+                cmd.CommandTimeout = 10000;
+                cmd.CommandText = spName;
+                conn.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataReader dr = cmd.ExecuteReader();
+                dt.Load(dr);
+                dr.Close();
+                conn.Close();
+            }
+
+            return dt;
+        }
+
         public DataSet ExecuteMultipleQuery(string ConnectionString, string spName, SqlParameter[] param)
         {
             DataSet dt = new DataSet();

@@ -16,6 +16,11 @@ using InsuranceBALApi.Interface;
 using InsuranceBALApi.Functions;
 using static InsuranceBALApi.Models.GenericReturnModel;
 using static InsuranceBALApi.Models.TravelBALAPIModel.TravelApiRequestResponseModel;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using PayuTest.Common;
+using System.Threading.Tasks;
 
 namespace WebApiTokenAuthentication.Controllers
 {
@@ -48,6 +53,41 @@ namespace WebApiTokenAuthentication.Controllers
             return Ok("Hello " + identity.Name + " Role: " + string.Join(",",roles.ToList()));
         }
 
+        [HttpGet]
+        [Route("TravelGetEnquiryID")]
+        public string GetEnquiryID()
+        {
+            var enquiryID = Guid.NewGuid().ToString();
+            //DataTable dtAllQuote = await FetchAllQuote();
+            FetchAllQuote(enquiryID);
+            return enquiryID;
+        }
+
+        private async void FetchAllQuote(string enquiryID)
+        {
+            string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            DataTable dt = await GetAllTravelQuote(cstr);
+            SaveCacheDataByEnquiryID(dt, enquiryID);
+        }
+
+        private void SaveCacheDataByEnquiryID(DataTable dt, string enquiryID)
+        {
+            //insert Cache table data to TravelResultCacheByEnquiry table
+            throw new NotImplementedException();
+        }
+
+        private async Task<DataTable> GetAllTravelQuote(string cstr)
+        {
+            
+            try
+            {
+                return (new CommonDB().ExecuteQuery(cstr, "GetAllTravelQuote"));
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         [HttpGet]
         [Route("api/data/createProposalAPIobj")]
         public void CreateProposalAPIobj()
