@@ -90,5 +90,34 @@ namespace PayuTest.Common
             return dt;
         }
 
+        public void ExecuteNonQuery(string ConnectionString, string spName, SqlParameter[] param)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("spName", con))
+                    {
+                        
+                        if (param != null)
+                        {
+                            for (int i = 0; i < param.Length; i++)
+                            {
+                                cmd.Parameters.Add(param[i]);
+                            }
+                        }
+
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception();
+            }
+        }
+
     }
 }

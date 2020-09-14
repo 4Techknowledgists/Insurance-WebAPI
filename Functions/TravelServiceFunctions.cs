@@ -510,6 +510,210 @@ namespace InsuranceBALApi.Functions
             }
         }
 
+        DataReturnModel<dynamic> ITravelServiceFunctions.SaveCacheDataToResultByEnquiryID(EnquiryIDData request)
+        {
+            DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
 
+            try
+            {
+                // store and check data
+                string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                DataTable dt = new DataTable(); // GetTravelSearchResultInCache(cstr, request.Enquid);
+                bool blnDataFound = false; //Not Found Data in cache
+                if (dt != null)
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        //Found Data in cache
+                        blnDataFound = true;
+                    }
+                }
+                if (blnDataFound) //Found Data in cache
+                {
+                    DataRow drNew = dt.NewRow();
+                    drNew["InsuranceFor"] = request.InsuranceFor;
+                    drNew["DestinationCity"] = request.DestinationCity;
+                    drNew["TravelStartDt"] = request.TravelStartDt;
+                    drNew["TravelEndDt"] = request.TravelEndDt;
+                    drNew["travelMultipleTimeFlag"] = request.travelMultipleTimeFlag;
+                    drNew["travelMultipleTimeDuration"] = request.travelMultipleTimeDuration;
+                    drNew["medicalConditionFlag"] = request.medicalConditionFlag;
+                    drNew["Enquid"] = request.Enquid;
+                    drNew["CanBeParent"] = request.CanBeParent;
+                    drNew["sumInsured"] = request.sumInsured;
+                    drNew["comm_giv_type"] = request.comm_giv_type;
+                    drNew["ProductName"] = request.ProductName;
+                    drNew["BusinessType"] = request.BusinessType;
+                    drNew["PolicyType"] = request.PolicyType;
+                    drNew["TravelDuration"] = request.TravelDuration;
+                    drNew["TravelGeography"] = request.TravelGeography;
+                    drNew["TypeOfBusiness"] = request.TypeOfBusiness;
+                    drNew["Fromdate"] = request.Fromdate;
+                    drNew["Fromhour"] = request.Fromhour;
+                    drNew["Todate"] = request.Todate;
+                    drNew["Tohour"] = request.Tohour;
+                    drNew["NetPremium"] = request.NetPremium;
+                    drNew["ServiceTax"] = request.ServiceTax;
+                    drNew["StampDuty2"] = request.StampDuty2;
+                    drNew["TotalPremium"] = request.TotalPremium;
+                    drNew["PlanType"] = request.PlanType;
+                    drNew["USERID"] = request.USERID;
+                    drNew["PartyComm"] = request.PartyComm;
+                    drNew["PartyCommPer"] = request.PartyCommPer;
+                    drNew["PartyCommType"] = request.PartyCommType;
+                    drNew["TDSPER"] = request.TDSPER;
+                    drNew["tds"] = request.tds;
+                    drNew["cgstONCOMM"] = request.cgstONCOMM;
+                    drNew["sgstONCOMM"] = request.sgstONCOMM;
+                    drNew["igstONCOMM"] = request.igstONCOMM;
+                    drNew["visaType"] = request.visaType;
+
+                    drNew["IsPreExistingDiseaseFlag"] = request.IsPreExistingDiseaseFlag;
+                    drNew["PreExistingDiseaseAmount"] = request.PreExistingDiseaseAmount;
+                    drNew["IsAdventureSportsFlag"] = request.IsAdventureSportsFlag;
+                    drNew["AdventureSportsAmount"] = request.AdventureSportsAmount;
+                    drNew["IsPetCareFlag"] = request.IsPetCareFlag;
+                    drNew["PetCareAmount"] = request.PetCareAmount;
+                    drNew["IsCoverageOnCruise"] = request.IsCoverageOnCruise;
+                    drNew["CoverageOnCruiseAmount"] = request.CoverageOnCruiseAmount;
+                    drNew["IsHomeBurgalaryFlag"] = request.IsHomeBurgalaryFlag;
+                    drNew["HomeBurgalaryAmount"] = request.HomeBurgalaryAmount;
+                    drNew["IsCardFraudFlag"] = request.IsCardFraudFlag;
+                    drNew["CardFlagAmount"] = request.CardFlagAmount;
+                    drNew["IsNonIndianPassportHolderFlag"] = request.IsNonIndianPassportHolderFlag;
+                    drNew["IsTouristVisaFlag"] = request.IsTouristVisaFlag;
+                    drNew["IsShortTermWorkVisaFlag"] = request.IsShortTermWorkVisaFlag;
+                    drNew["IsPermanentResidentCardFlag"] = request.IsPermanentResidentCardFlag;
+                    drNew["IsLongTermWorkVisaFlag"] = request.IsLongTermWorkVisaFlag;
+                    drNew["IsDependentVisaFlag"] = request.IsDependentVisaFlag;
+                    drNew["IsDiplomaticVisaFlag"] = request.IsDiplomaticVisaFlag;
+                    drNew["IsStudentVisaFlag"] = request.IsStudentVisaFlag;
+                    drNew["IsGoinfHomeFlag"] = request.IsGoinfHomeFlag;
+                    drNew["IsHolidayFlag"] = request.IsHolidayFlag;
+                    drNew["IsStudiesFlag"] = request.IsStudiesFlag;
+                    drNew["IsRelocationFlag"] = request.IsRelocationFlag;
+                    drNew["IsMedicalTreatmentFlag"] = request.IsMedicalTreatmentFlag;
+                    drNew["IsBusinessFlag"] = request.IsBusinessFlag;
+
+                }
+
+                //dr.info.res = JsonConvert.SerializeObject(list);
+            }
+            catch (Exception ex)
+            {
+                ErrorLogging(ex);
+            }
+            return dr;
+        }
+
+        DataReturnModel<dynamic> ITravelServiceFunctions.SaveCacheData(EnquiryIDData request)
+        {
+            DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
+
+            try
+            {
+                // store and check data
+                string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                SqlConnection sqlConnection = new SqlConnection(cstr);
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand("Select * from TravelResultCaching", sqlConnection);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                DataSet dsCache = new DataSet("dsCache");                
+                sqlDataAdapter.Fill(dsCache);
+                if (dsCache.Tables.Count == 0)
+                    return null;
+
+                DataTable dtCache = dsCache.Tables[0]; //GetTravelSearchResultInCache(cstr, request.Enquid);
+                //bool blnDataFound = false; //Not Found Data in cache
+                //if (dt != null)
+                //{
+                //    if (dt.Rows.Count > 0)
+                //    {
+                //        //Found Data in cache
+                //        blnDataFound = true;
+                //    }
+                //}
+                //if (blnDataFound) //Found Data in cache
+                //{
+                    DataRow drNew = dtCache.NewRow();
+                    drNew["InsuranceFor"] = request.InsuranceFor;
+                    drNew["DestinationCity"] = request.DestinationCity;
+                    drNew["TravelStartDt"] = request.TravelStartDt;
+                    drNew["TravelEndDt"] = request.TravelEndDt;
+                    drNew["travelMultipleTimeFlag"] = request.travelMultipleTimeFlag;
+                    drNew["travelMultipleTimeDuration"] = request.travelMultipleTimeDuration;
+                    drNew["medicalConditionFlag"] = request.medicalConditionFlag;
+                    drNew["Enquid"] = request.Enquid;
+                    drNew["CanBeParent"] = request.CanBeParent;
+                    drNew["sumInsured"] = request.sumInsured;
+                    drNew["comm_giv_type"] = request.comm_giv_type;
+                    drNew["ProductName"] = request.ProductName;
+                    drNew["BusinessType"] = request.BusinessType;
+                    drNew["PolicyType"] = request.PolicyType;
+                    drNew["TravelDuration"] = request.TravelDuration;
+                    drNew["TravelGeography"] = request.TravelGeography;
+                    drNew["TypeOfBusiness"] = request.TypeOfBusiness;
+                    drNew["Fromdate"] = request.Fromdate;
+                    drNew["Fromhour"] = request.Fromhour;
+                    drNew["Todate"] = request.Todate;
+                    drNew["Tohour"] = request.Tohour;
+                    drNew["NetPremium"] = request.NetPremium;
+                    drNew["ServiceTax"] = request.ServiceTax;
+                    drNew["StampDuty2"] = request.StampDuty2;
+                    drNew["TotalPremium"] = request.TotalPremium;
+                    drNew["PlanType"] = request.PlanType;
+                    drNew["USERID"] = request.USERID;
+                    drNew["PartyComm"] = request.PartyComm;
+                    drNew["PartyCommPer"] = request.PartyCommPer;
+                    drNew["PartyCommType"] = request.PartyCommType;
+                    drNew["TDSPER"] = request.TDSPER;
+                    drNew["tds"] = request.tds;
+                    drNew["cgstONCOMM"] = request.cgstONCOMM;
+                    drNew["sgstONCOMM"] = request.sgstONCOMM;
+                    drNew["igstONCOMM"] = request.igstONCOMM;
+                    drNew["visaType"] = request.visaType;
+
+                    drNew["IsPreExistingDiseaseFlag"] = request.IsPreExistingDiseaseFlag;
+                    drNew["PreExistingDiseaseAmount"] = request.PreExistingDiseaseAmount;
+                    drNew["IsAdventureSportsFlag"] = request.IsAdventureSportsFlag;
+                    drNew["AdventureSportsAmount"] = request.AdventureSportsAmount;
+                    drNew["IsPetCareFlag"] = request.IsPetCareFlag;
+                    drNew["PetCareAmount"] = request.PetCareAmount;
+                    drNew["IsCoverageOnCruise"] = request.IsCoverageOnCruise;
+                    drNew["CoverageOnCruiseAmount"] = request.CoverageOnCruiseAmount;
+                    drNew["IsHomeBurgalaryFlag"] = request.IsHomeBurgalaryFlag;
+                    drNew["HomeBurgalaryAmount"] = request.HomeBurgalaryAmount;
+                    drNew["IsCardFraudFlag"] = request.IsCardFraudFlag;
+                    drNew["CardFlagAmount"] = request.CardFlagAmount;
+                    drNew["IsNonIndianPassportHolderFlag"] = request.IsNonIndianPassportHolderFlag;
+                    drNew["IsTouristVisaFlag"] = request.IsTouristVisaFlag;
+                    drNew["IsShortTermWorkVisaFlag"] = request.IsShortTermWorkVisaFlag;
+                    drNew["IsPermanentResidentCardFlag"] = request.IsPermanentResidentCardFlag;
+                    drNew["IsLongTermWorkVisaFlag"] = request.IsLongTermWorkVisaFlag;
+                    drNew["IsDependentVisaFlag"] = request.IsDependentVisaFlag;
+                    drNew["IsDiplomaticVisaFlag"] = request.IsDiplomaticVisaFlag;
+                    drNew["IsStudentVisaFlag"] = request.IsStudentVisaFlag;
+                    drNew["IsGoinfHomeFlag"] = request.IsGoinfHomeFlag;
+                    drNew["IsHolidayFlag"] = request.IsHolidayFlag;
+                    drNew["IsStudiesFlag"] = request.IsStudiesFlag;
+                    drNew["IsRelocationFlag"] = request.IsRelocationFlag;
+                    drNew["IsMedicalTreatmentFlag"] = request.IsMedicalTreatmentFlag;
+                    drNew["IsBusinessFlag"] = request.IsBusinessFlag;
+
+                dtCache.Rows.Add(drNew);
+                SqlCommandBuilder scb = new SqlCommandBuilder(sqlDataAdapter);
+                //dtCache.AcceptChanges();
+                sqlDataAdapter.InsertCommand = scb.GetInsertCommand();
+                sqlDataAdapter.Update(dtCache);
+                //}
+
+                //dr.info.res = JsonConvert.SerializeObject(list);
+            }
+            catch (Exception ex)
+            {
+                ErrorLogging(ex);
+            }
+            return dr;
+        }
     }
 }

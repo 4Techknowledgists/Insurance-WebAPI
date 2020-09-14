@@ -20,5 +20,7 @@ namespace InsuranceBALApi.Interface
         DataReturnModel<dynamic> HitPaymentGatewayApi(PgResponse request);
         DataReturnModel<dynamic> HitDownloadPolicyApi(PolicyDownload request);
         DataReturnModel<dynamic> HitLoginApi(LoginRequest request);
+        DataReturnModel<dynamic> SaveCacheData(TravelBALAPIModel.TravelApiResponseModel.EnquiryIDData request);
+        DataReturnModel<dynamic> SaveCacheDataToResultByEnquiryID(TravelBALAPIModel.TravelApiResponseModel.EnquiryIDData request);
     }
 }
