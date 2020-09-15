@@ -147,6 +147,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interface\ITravelServiceFunctions.cs" />
+    <Compile Include="Models\clsProposal.cs" />
     <Compile Include="Models\EnquiryRequest.cs" />
     <Compile Include="Models\GenericReturnModel.cs" />
     <Compile Include="Models\TravelModel.cs" />
