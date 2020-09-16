@@ -96,7 +96,7 @@ namespace PayuTest.Common
             {
                 using (SqlConnection con = new SqlConnection(ConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("spName", con))
+                    using (SqlCommand cmd = new SqlCommand(spName, con))
                     {
                         
                         if (param != null)

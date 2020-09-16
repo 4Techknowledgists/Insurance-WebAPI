@@ -87,7 +87,7 @@ namespace WebApiTokenAuthentication.Controllers
             {
                 string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-                SqlParameter[] param = new SqlParameter[3];
+                SqlParameter[] param = new SqlParameter[12];
                 param[0] = new SqlParameter("@enquiryid", enquiryID);
                 param[1] = new SqlParameter("@SelfAge", enquiryRequest.SelfAge);
                 param[2] = new SqlParameter("@SpouseAge", enquiryRequest.SpouseAge);
@@ -124,18 +124,18 @@ namespace WebApiTokenAuthentication.Controllers
             {
                 string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-                SqlParameter[] param = new SqlParameter[3];
-                param[1] = new SqlParameter("@SelfAge", enquiryRequest.SelfAge);
-                param[2] = new SqlParameter("@SpouseAge", enquiryRequest.SpouseAge);
-                param[3] = new SqlParameter("@Child1Age", enquiryRequest.Child1Age);
-                param[4] = new SqlParameter("@Child2Age", enquiryRequest.Child2Age);
-                param[5] = new SqlParameter("@Child3Age", enquiryRequest.Child3Age);
-                param[6] = new SqlParameter("@FatherAge", enquiryRequest.FatherAge);
-                param[7] = new SqlParameter("@MotherAge", enquiryRequest.MotherAge);
-                param[8] = new SqlParameter("@TravelMultipleTimes", enquiryRequest.TravelFrequency);
-                param[9] = new SqlParameter("@AnyMedicalCondition", enquiryRequest.MedicalCondition);
-                param[10] = new SqlParameter("@FromDate", enquiryRequest.TripStartDate);
-                param[11] = new SqlParameter("@ToDate", enquiryRequest.TripEndDate);
+                SqlParameter[] param = new SqlParameter[11];
+                param[0] = new SqlParameter("@SelfAge", enquiryRequest.SelfAge);
+                param[1] = new SqlParameter("@SpouseAge", enquiryRequest.SpouseAge);
+                param[2] = new SqlParameter("@Child1Age", enquiryRequest.Child1Age);
+                param[3] = new SqlParameter("@Child2Age", enquiryRequest.Child2Age);
+                param[4] = new SqlParameter("@Child3Age", enquiryRequest.Child3Age);
+                param[5] = new SqlParameter("@FatherAge", enquiryRequest.FatherAge);
+                param[6] = new SqlParameter("@MotherAge", enquiryRequest.MotherAge);
+                param[7] = new SqlParameter("@TravelMultipleTimes", enquiryRequest.TravelFrequency);
+                param[8] = new SqlParameter("@AnyMedicalCondition", enquiryRequest.MedicalCondition);
+                param[9] = new SqlParameter("@FromDate", enquiryRequest.TripStartDate);
+                param[10] = new SqlParameter("@ToDate", enquiryRequest.TripEndDate);
 
                 dtTravelCache= new CommonDB().ExecuteQuery(cstr, "SelectTravelQuotes", param);
                 //return 0;
@@ -223,21 +223,26 @@ namespace WebApiTokenAuthentication.Controllers
             }
         }
 
+
+
         /// <summary>
         /// Proposal request contains selected plan and this would be sent to Company API and 
         /// as a result we get Payment gateway link which is returned back to UI
         /// </summary>
         [HttpPost]
-        [Route("CreateProposalForSelectedPlan")]
-        public void CreateProposalForSelectedPlan(SelectedPlan selPlanrequest)
+        [Route("GetPremiumInfo")]
+        public string GetPremiumInfo(HttpRequestMessage selPlanrequest)
         {
 
             if (selPlanrequest == null)
-                return;
+                return "Request Not Valid";
+
+            //just for testing
+            //clsProposal objProposal = JsonConvert.DeserializeObject<clsProposal>(selPlanrequest.Content.ReadAsStringAsync().Result);
 
             string jsonResult = string.Empty;
-            string MethodName = "CreateProposalForSelectedPlan";
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:44320/api/data/" + MethodName);
+            string MethodName = "GetPremiumInfo";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:44310/api/data/" + MethodName);
 
             try
             {
@@ -247,21 +252,72 @@ namespace WebApiTokenAuthentication.Controllers
                 //doc.LastChild.AppendChild(requestorTag);
 
                 //string requestData = xmlstring.ToString();
-                byte[] data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(selPlanrequest));// doc.OuterXml); // xmlstring.OuterXml);
+                byte[] data = Encoding.UTF8.GetBytes(selPlanrequest.Content.ReadAsStringAsync().Result);// doc.OuterXml); // xmlstring.OuterXml);
                 request.Method = "POST";
                 Stream dataStream = request.GetRequestStream();
                 dataStream.Write(data, 0, data.Length);
                 dataStream.Close();
                 request.ContentType = "application/json; charset=utf-8";
                 WebResponse response = request.GetResponse();
-                response = request.GetResponse();
 
                 string result = new StreamReader(response.GetResponseStream()).ReadToEnd();
-
+                return result;
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
+                return msg;
+            }
+
+
+            //get Payment gateway link and return to UI
+            //return dr;
+        }
+
+
+
+        /// <summary>
+        /// Proposal request contains selected plan and this would be sent to Company API and 
+        /// as a result we get Payment gateway link which is returned back to UI
+        /// </summary>
+        [HttpPost]
+        [Route("CreateProposalForSelectedPlan")]
+        public string CreateProposalForSelectedPlan(HttpRequestMessage selPlanrequest)
+        {
+            
+            if (selPlanrequest == null)
+                return "Request Not Valid";
+
+            //just for testing
+            //clsProposal objProposal = JsonConvert.DeserializeObject<clsProposal>(selPlanrequest.Content.ReadAsStringAsync().Result);
+
+            string jsonResult = string.Empty;
+            string MethodName = "CreateProposalForSelectedPlan";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:44310/api/data/" + MethodName);
+
+            try
+            {
+                //Internal Tag to know Request is sent by dayibpl BAL only
+                //XmlElement requestorTag = doc.CreateElement("REQUESTOR");
+                //requestorTag.InnerText = "CALLINGFROMBAL2WEBAPI";
+                //doc.LastChild.AppendChild(requestorTag);
+
+                //string requestData = xmlstring.ToString();
+                byte[] data = Encoding.UTF8.GetBytes(selPlanrequest.Content.ReadAsStringAsync().Result);// doc.OuterXml); // xmlstring.OuterXml);
+                request.Method = "POST";
+                Stream dataStream = request.GetRequestStream();
+                dataStream.Write(data, 0, data.Length);
+                dataStream.Close();
+                request.ContentType = "application/json; charset=utf-8";
+                WebResponse response = request.GetResponse();
+               
+                string result = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                return msg;
             }
 
 
@@ -293,8 +349,8 @@ namespace WebApiTokenAuthentication.Controllers
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
             TravelBALAPIModel.TravelApiResponseModel.EnquiryIDData enquiryIDData = new TravelBALAPIModel.TravelApiResponseModel.EnquiryIDData();
-            enquiryIDData.DestinationCity = request.DestinationCity;
-            
+            enquiryIDData.DestinationCity = request.DestinationCity;            
+
             dr = ServiceFunctions.SaveCacheDataToResultByEnquiryID(enquiryIDData);
             
 
