@@ -160,20 +160,20 @@ namespace InsuranceBALApi.Functions
         {
             DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
 
-            try
-            {
-                string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                DataSet ds = InsertSelectedPlanData(cstr, request);
+            //try
+            //{
+            //    string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            //    DataSet ds = InsertSelectedPlanData(cstr, request);
 
-                dr.info.res = JsonConvert.SerializeObject(ds);
+            //    dr.info.res = JsonConvert.SerializeObject(ds);
 
-                // DataSet dds = JsonConvert.DeserializeObject<DataSet>(dr.info.res);
-                // CALL API FROM HERE AND PASS ENQUIRY ID AND ALL PARAMETER RECEVED FROM UI
-            }
-            catch (Exception ex)
-            {
-                ErrorLogging(ex);
-            }
+            //    // DataSet dds = JsonConvert.DeserializeObject<DataSet>(dr.info.res);
+            //    // CALL API FROM HERE AND PASS ENQUIRY ID AND ALL PARAMETER RECEVED FROM UI
+            //}
+            //catch (Exception ex)
+            //{
+            //    ErrorLogging(ex);
+            //}
             return dr;
         }
 
@@ -476,23 +476,23 @@ namespace InsuranceBALApi.Functions
             }
         }
 
-        private DataSet InsertSelectedPlanData(string cstr, SelectedPlan sReq)
-        {
-            //Enter Values in Recharge Table
-            try
-            {
-                SqlParameter[] param = new SqlParameter[3];
-                param[0] = new SqlParameter("@enquiryid", sReq.EnquiryID);
-                param[1] = new SqlParameter("@CompanyName", sReq.EnquiryID);
-                param[2] = new SqlParameter("@PlanName", sReq.EnquiryID);
+        //private DataSet InsertSelectedPlanData(string cstr, SelectedPlan sReq)
+        //{
+        //    //Enter Values in Recharge Table
+        //    try
+        //    {
+        //        SqlParameter[] param = new SqlParameter[3];
+        //        param[0] = new SqlParameter("@enquiryid", sReq.EnquiryID);
+        //        param[1] = new SqlParameter("@CompanyName", sReq.EnquiryID);
+        //        param[2] = new SqlParameter("@PlanName", sReq.EnquiryID);
 
-                return (new CommonDB().ExecuteMultipleQuery(cstr, "InsertSelectedTravelPlanDetail", param));
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
+        //        return (new CommonDB().ExecuteMultipleQuery(cstr, "InsertSelectedTravelPlanDetail", param));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+        //}
 
         private DataSet InsertProposalFormData(string cstr, ProposalForm sReq)
         {

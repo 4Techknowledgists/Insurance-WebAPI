@@ -226,12 +226,147 @@ namespace InsuranceBALApi.Models
                 public string IsUnlimitedAutoRecharge { get; set; }
                 public string IsPersonalAccidentOpt { get; set; }
             }
-            
+
+            //public class SelectedPlan
+            //{
+            //    public string EnquiryID { get; set; }
+            //    public string CompanyName { get; set; }
+            //    public string PlanName { get; set; }
+            //}
+
             public class SelectedPlan
             {
-                public string EnquiryID { get; set; }
-                public string CompanyName { get; set; }
-                public string PlanName { get; set; }
+                public string InsuranceFor { get; set; }
+                public string DestinationCity { get; set; }
+                public string SelfAge { get; set; }
+                public string SpouseAge { get; set; }
+                public string ChildAge1 { get; set; }
+                public string ChildAge2 { get; set; }
+                public string ChildAge3 { get; set; }
+                public string FatherAge { get; set; }
+                public string MotherAge { get; set; }
+                public string Member1 { get; set; }
+                public string Member2 { get; set; }
+                public string Member3 { get; set; }
+                public string Member4 { get; set; }
+                public string Member5 { get; set; }
+                public string Member6 { get; set; }
+                public string Member7 { get; set; }
+                public string Member8 { get; set; }
+                public string Student1 { get; set; }
+                public string Student2 { get; set; }
+                public string Student3 { get; set; }
+                public string Student4 { get; set; }
+                public string Student5 { get; set; }
+                public string Student6 { get; set; }
+                public string Student7 { get; set; }
+                public string Student8 { get; set; }
+                public string TravelStartDt { get; set; }
+                public string TravelEndDt { get; set; }
+                public string TravelMultipleTimeFlag { get; set; }
+                public string TravelMultipleTimeDuration { get; set; }
+                public string MedicalConditionFlag { get; set; }
+                public string FirstName { get; set; }
+                public string LastName { get; set; }
+                public string Emailid { get; set; }
+                public string MobileNo { get; set; }
+                public string Enquid { get; set; }
+                public string CanBeParent { get; set; }
+                public string ContactTelephoneSTD { get; set; }
+                public string CustomerName { get; set; }
+                public string CustomerType { get; set; }
+                public string SumInsured { get; set; }
+                public string DOB { get; set; }
+                public string Age { get; set; }
+                public string PermanentAddressLine1 { get; set; }
+                public string PermanentAddressLine2 { get; set; }
+                public string PermanentCityDistCode { get; set; }
+                public string PermanentPinCode { get; set; }
+                public string PermanentStateCode { get; set; }
+                public string PosPolicyNo { get; set; }
+                public string Comm_giv_type { get; set; }
+                public string PresentAddressLine2 { get; set; }
+                public string PresentPinCode { get; set; }
+                public string PresentStateCode { get; set; }
+                public string ProductName { get; set; }
+                public string BusinessType { get; set; }
+                public string DealId { get; set; }
+                public string MaxTravelDuration { get; set; }
+                public string PolicyEffectiveDate { get; set; }
+                public string PolicyNumberChar { get; set; }
+                public string PolicyType { get; set; }
+                public string ProposalDate { get; set; }
+                public string Sector { get; set; }
+                public string ServiceTaxExemptionCategory { get; set; }
+                public string TravelDuration { get; set; }
+                public string TravelGeography { get; set; }
+                public string TypeOfBusiness { get; set; }
+                public string Fromdate { get; set; }
+                public string Fromhour { get; set; }
+                public string Todate { get; set; }
+                public string Tohour { get; set; }
+                public string NetPremium { get; set; }
+                public string ServiceTax { get; set; }
+                public string StampDuty2 { get; set; }
+                public string TotalPremium { get; set; }
+                public string Title { get; set; }
+                public string Gender { get; set; }
+                public string MaritalStatus { get; set; }
+                public string IndianPassportFlag { get; set; }
+                public string Occupation { get; set; }
+                public string NomineeName { get; set; }
+                public string NomineeRelationship { get; set; }
+                public string PassportNo { get; set; }
+                public string PED { get; set; }
+                public string PEDDeclared { get; set; }
+                public string PhoneNo { get; set; }
+                public string PhysicianName { get; set; }
+                public string PlanType { get; set; }
+                public string Relationship { get; set; }
+                public string ArrivalCountry { get; set; }
+                public string USERID { get; set; }
+                public string CREATIONDATE { get; set; }
+                public string CouponDiscount { get; set; }
+                public string CouponDiscountCODE { get; set; }
+                public string PartyComm { get; set; }
+                public string PartyCommPer { get; set; }
+                public string PartyCommType { get; set; }
+                public string TDSPER { get; set; }
+                public string TDS { get; set; }
+                public string CGSTONCOMM { get; set; }
+                public string SGSTONCOMM { get; set; }
+                public string IGSTONCOMM { get; set; }
+                public string visaType { get; set; }
+                public string purposeOFTravel { get; set; }
+                public string travelerIndianFlag { get; set; }
+                public string landmark { get; set; }
+                public string alternateNumber { get; set; }
+                public string IsPreExistingDiseaseFlag { get; set; }
+                public string PreExistingDiseaseAmount { get; set; }
+                public string IsAdventureSportsFlag { get; set; }
+                public string AdventureSportsAmount { get; set; }
+                public string IsPetCareFlag { get; set; }
+                public string PetCareAmount { get; set; }
+                public string IsCoverageOnCruise { get; set; }
+                public string CoverageOnCruiseAmount { get; set; }
+                public string IsHomeBurgalaryFlag { get; set; }
+                public string HomeBurgalaryAmount { get; set; }
+                public string IsCardFraudFlag { get; set; }
+                public string CardFlagAmount { get; set; }
+                public string IsNonIndianPassportHolderFlag { get; set; }
+                public string IsTouristVisaFlag { get; set; }
+                public string IsShortTermWorkVisaFlag { get; set; }
+                public string IsPermanentResidentCardFlag { get; set; }
+                public string IsLongTermWorkVisaFlag { get; set; }
+                public string IsDependentVisaFlag { get; set; }
+                public string IsDiplomaticVisaFlag { get; set; }
+                public string IsStudentVisaFlag { get; set; }
+                public string IsGoinfHomeFlag { get; set; }
+                public string IsHolidayFlag { get; set; }
+                public string IsStudiesFlag { get; set; }
+                public string IsRelocationFlag { get; set; }
+                public string IsMedicalTreatmentFlag { get; set; }
+                public string IsBusinessFlag { get; set; }
             }
 
             public class PgResponse

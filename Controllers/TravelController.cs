@@ -177,53 +177,78 @@ namespace WebApiTokenAuthentication.Controllers
         }
 
         /// <summary>
+        /// This method to update customer details based on enqury id to TravelEnquiry table
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        ///<param name="emailId"></param>
+        ///<param name="mobileNumber"></param>
+        ///<param name="enquiryId"></param>
+        [HttpPost]
+        [Route("SaveCustomerInfo")]
+        public void SaveCustomerInfo([FromBody] string fName, string lName, string emailId, string mobNo, string enquiryId)
+        {
+            string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            SqlParameter[] param = new SqlParameter[5];
+            param[0] = new SqlParameter("@FirstName", fName);
+            param[1] = new SqlParameter("@LastName", lName);
+            param[2] = new SqlParameter("@EmailId", emailId);
+            param[3] = new SqlParameter("@MobileNumber", mobNo);
+            param[4] = new SqlParameter("@EnquiryNo", enquiryId);
+
+            new CommonDB().ExecuteNonQuery(cstr, "UpdateTravelEnquiry", param);
+        }
+
+        /// <summary>
         /// This method to fetch data from cache table and then save results to Result table (TravelResult) 
         /// </summary>
-        /// <param name="request"></param>
-        [HttpPost]
+        /// <param name="enquiryId"></param>
+        [HttpGet]
         [Route("GetResultByEnquiryID")]
-        public void GetResultByEnquiryID([FromBody]SearchRequest serrequest)
+        public DataTable GetResultByEnquiryID([FromBody] string enquiryId)
         {
-            if (serrequest == null)
-                return;
-
-            //XmlDocument doc = new XmlDocument();          
-            //sbData = new StringBuilder();
-            //string strXML = SerializeToXml(serrequest, @"E:\Temp");
-            //doc.LoadXml(strXML);
-
-            string jsonResult = string.Empty;
-            string MethodName = "GetResultByEnquiryID";
-            string url = "http://localhost:44320/api/data/" + MethodName;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-
-            XmlDocument outdoc = new XmlDocument();
+            DataTable dtSearchResult = null;
             try
             {
-                ////Internal Tag to know Request is sent by dayibpl BAL only
-                //XmlElement requestorTag = doc.CreateElement("REQUESTOR");
-                //requestorTag.InnerText = "CALLINGFROMBAL2WEBAPI";
-                //doc.LastChild.AppendChild(requestorTag);
+                string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-                byte[] data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(serrequest)); // xmlstring.OuterXml);
-                request.Method = "POST";
-                Stream dataStream = request.GetRequestStream();
-                dataStream.Write(data, 0, data.Length);
-                dataStream.Close();
-                request.ContentType = "application/json; charset=utf-8";
-                WebResponse response = request.GetResponse();
-                response = request.GetResponse();
+                SqlParameter[] param = new SqlParameter[5];
+                param[0] = new SqlParameter("@EnquiryNo", enquiryId);
 
-                string result = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                dtSearchResult=new CommonDB().ExecuteQuery(cstr, "GetTravelQuoteByEnquiryId", param);
+                
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+            return dtSearchResult;
+        }
+
+        [HttpPost]
+        [Route("SaveSelectedPlan")]
+        public DataTable SaveSelectedPlan([FromBody] SelectedPlan selectedPlan)
+        {
+            DataTable dtSearchResult = null;
+            try
+            {
+                string cstr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+                //parameter list depends on premium response. Will be created when we have successful premium response from any company
+                SqlParameter[] param = new SqlParameter[5];
+
+                //param[0] = new SqlParameter("@EnquiryNo", enquiryId);
+
+                dtSearchResult = new CommonDB().ExecuteQuery(cstr, "SaveSelectedPlan", param);
 
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
             }
+            return dtSearchResult;
         }
-
-
 
         /// <summary>
         /// Proposal request contains selected plan and this would be sent to Company API and 
@@ -939,9 +964,9 @@ namespace WebApiTokenAuthentication.Controllers
 
                 SearchRequest resultingMessage = new SearchRequest();
                 string jsonResult = string.Empty;
-                string MethodName = "createProposalAPIobjPost";
+                string MethodName = "CreatePremiumAPIobjPost";
                 //HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://rgipartners.reliancegeneral.co.in/API/Service/" + MethodName);
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:44310/api/data/" + MethodName);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:44320/api/data/" + MethodName);
 
                 XmlDocument outdoc = new XmlDocument();
 
@@ -1007,14 +1032,14 @@ namespace WebApiTokenAuthentication.Controllers
         }
 
 
-        [HttpPost]
-        [Route("TravelPlanSelected")]
-        public DataReturnModel<dynamic> SaveSelectedPlan(SelectedPlan request)
-        {
-            DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
-            dr = ServiceFunctions.HitSelectedPlanApi(request);
-            return dr;
-        }
+        //[HttpPost]
+        //[Route("TravelPlanSelected")]
+        //public DataReturnModel<dynamic> SaveSelectedPlan(SelectedPlan request)
+        //{
+        //    DataReturnModel<dynamic> dr = new DataReturnModel<dynamic>();
+        //    dr = ServiceFunctions.HitSelectedPlanApi(request);
+        //    return dr;
+        //}
 
         [HttpPost]
         //[Route("TravelProposalForm")]
