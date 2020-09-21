@@ -1380,7 +1380,16 @@ namespace WebApiTokenAuthentication.Controllers
 
 
         /**********************************************/
-
+        [HttpPost]
+        [Route("TravelUniveral")]
+        public async Task<string> TestUniversal(HttpRequestMessage httpRequestMessage)
+        {
+            UniversalServiceReference1.Service1Client usr = new WebApiTokenAuthentication.UniversalServiceReference1.Service1Client();
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.Load(@"D:\2020\4TK\Amar - WebAPI\27th Aug\Universal\Travel\Travel-WorldWide_Req_1.3\Travel-WorldWide_Req_1.3.xml");
+            var returnString = await usr.commBRIDGEFusionTravelAsync(httpRequestMessage.Content.ReadAsStringAsync().Result); // xdoc.OuterXml);
+            return returnString;
+        }
 
 
     }

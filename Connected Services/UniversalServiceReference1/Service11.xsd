@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="commBRIDGEFusionMOTOR">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="strXdoc" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionMOTORResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="commBRIDGEFusionMOTORResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionHEALTH">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="strXdoc" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionHEALTHResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="commBRIDGEFusionHEALTHResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionTravel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="strXdoc" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionTravelResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="commBRIDGEFusionTravelResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionIPA">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="strXdoc" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionIPAResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="commBRIDGEFusionIPAResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionCPA">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="strXdoc" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionCPAResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="commBRIDGEFusionCPAResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionWC">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="strXdoc" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="commBRIDGEFusionWCResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="commBRIDGEFusionWCResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
